@@ -25,6 +25,7 @@ locals {
     Example    = local.name
     GithubRepo = "terraform-aws-eks"
     GithubOrg  = "terraform-aws-modules"
+    User       = "eyjo@mz.co.kr"
   }
 }
 
@@ -127,7 +128,7 @@ module "eks" {
     }
   }
 
-  # Self Managed Node Group(s)
+#   #Self Managed Node Group(s)
 #   self_managed_node_group_defaults = {
 #     vpc_security_group_ids = [aws_security_group.additional.id]
 #     iam_role_additional_policies = {
@@ -166,62 +167,63 @@ module "eks" {
 #   }
 
   # EKS Managed Node Group(s)
-  eks_managed_node_group_defaults = {
-    ami_type       = "AL2_x86_64"
-    instance_types = ["t3.medium"]
+#   eks_managed_node_group_defaults = {
+#     ami_type       = "AL2_x86_64"
+#     instance_types = ["t3.medium"]
 
-    attach_cluster_primary_security_group = true
-    vpc_security_group_ids                = [aws_security_group.additional.id]
-    iam_role_additional_policies = {
-      additional = aws_iam_policy.additional.arn
-    }
-  }
-
-#   eks_managed_node_groups = {
-#     blue = {}
-#     green = {
-#       min_size     = 1
-#       max_size     = 10
-#       desired_size = 1
-
-#       instance_types = ["t3.large"]
-#       capacity_type  = "SPOT"
-#       labels = {
-#         Environment = "test"
-#         GithubRepo  = "terraform-aws-eks"
-#         GithubOrg   = "terraform-aws-modules"
-#       }
-
-#       taints = {
-#         dedicated = {
-#           key    = "dedicated"
-#           value  = "gpuGroup"
-#           effect = "NO_SCHEDULE"
-#         }
-#       }
-
-#       block_device_mappings = {
-#         xvda = {
-#           device_name = "/dev/xvda"
-#           ebs = {
-#             volume_size           = 100
-#             volume_type           = "gp3"
-#             iops                  = 3000
-#             throughput            = 150
-#             delete_on_termination = true
-#           }
-#         }
-#       }
-
-#       update_config = {
-#         max_unavailable_percentage = 33 # or set `max_unavailable`
-#       }
-
-#       tags = {
-#         ExtraTag = "example"
-#       }
+#     attach_cluster_primary_security_group = true
+#     vpc_security_group_ids                = [aws_security_group.additional.id]
+#     iam_role_additional_policies = {
+#       additional = aws_iam_policy.additional.arn
 #     }
 #   }
+  
+
+  eks_managed_node_groups = {
+    # blue = {}
+    custom_node_group = {
+      min_size     = 1
+      max_size     = 4
+      desired_size = 2
+
+      instance_types = ["t3.large"]
+      #capacity_type  = "SPOT"
+      labels = {
+        Environment = "test"
+        GithubRepo  = "terraform-aws-eks"
+        GithubOrg   = "terraform-aws-modules"
+      }
+
+      taints = {
+        dedicated = {
+          key    = "dedicated"
+          value  = "gpuGroup"
+          effect = "NO_SCHEDULE"
+        }
+      }
+
+      block_device_mappings = {
+        xvda = {
+          device_name = "/dev/xvda"
+          ebs = {
+            volume_size           = 100
+            volume_type           = "gp3"
+            iops                  = 3000
+            throughput            = 150
+            delete_on_termination = true
+          }
+        }
+      }
+
+      update_config = {
+        max_unavailable_percentage = 33 # or set `max_unavailable`
+      }
+
+      tags = {
+        ExtraTag = "example"
+      }
+    }
+  }
 
 #   # Fargate Profile(s)
 #   fargate_profiles = {
@@ -250,8 +252,8 @@ module "eks" {
 #     }
 #   }
 
-#   # Create a new cluster where both an identity provider and Fargate profile is created
-#   # will result in conflicts since only one can take place at a time
+  # Create a new cluster where both an identity provider and Fargate profile is created
+  # will result in conflicts since only one can take place at a time
 #   # # OIDC Identity provider
 #   cluster_identity_providers = {
 #      sts = {
@@ -262,23 +264,23 @@ module "eks" {
   # aws-auth configmap
   manage_aws_auth_configmap = true
 
-  aws_auth_node_iam_role_arns_non_windows = [
-    module.eks_managed_node_group.iam_role_arn,
-#    module.self_managed_node_group.iam_role_arn,
-  ]
+#   aws_auth_node_iam_role_arns_non_windows = [
+#     module.eks_managed_node_group.iam_role_arn,
+# #    module.self_managed_node_group.iam_role_arn,
+#   ]
 #   aws_auth_fargate_profile_pod_execution_role_arns = [
 #     module.fargate_profile.fargate_profile_pod_execution_role_arn
 #   ]
 
-  aws_auth_roles = [
-    {
-      rolearn  = module.eks_managed_node_group.iam_role_arn
-      username = "system:node:{{EC2PrivateDNSName}}"
-      groups = [
-        "system:bootstrappers",
-        "system:nodes",
-      ]
-    },
+#   aws_auth_roles = [
+#     {
+#       rolearn  = module.eks_managed_node_group.iam_role_arn
+#       username = "system:node:{{EC2PrivateDNSName}}"
+#       groups = [
+#         "system:bootstrappers",
+#         "system:nodes",
+#       ]
+#     },
     # {
     #   rolearn  = module.self_managed_node_group.iam_role_arn
     #   username = "system:node:{{EC2PrivateDNSName}}"
@@ -296,7 +298,7 @@ module "eks" {
     #     "system:node-proxier",
     #   ]
     # }
-  ]
+#   ]
 
   aws_auth_users = [
     {
@@ -323,35 +325,36 @@ module "eks" {
 # Sub-Module Usage on Existing/Separate Cluster
 ################################################################################
 
-module "eks_managed_node_group" {
-  source = "../../modules/eks-managed-node-group"
+# module "eks_managed_node_group" {
+#   source = "../../modules/eks-managed-node-group"
 
-  name            = "separate-eks-mng"
-  cluster_name    = module.eks.cluster_name
-  cluster_version = module.eks.cluster_version
+#   name            = "separate-eks-mng"
+#   cluster_name    = module.eks.cluster_name
+#   cluster_version = module.eks.cluster_version
 
-  subnet_ids                        = data.terraform_remote_state.vpc.outputs.private_subnets
-  cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
-  vpc_security_group_ids = [
-    module.eks.cluster_security_group_id,
-  ]
+#   subnet_ids                        = data.terraform_remote_state.vpc.outputs.private_subnets
+#   cluster_primary_security_group_id = module.eks.cluster_primary_security_group_id
+#   vpc_security_group_ids = [
+#     module.eks.cluster_security_group_id,
+#   ]
 
-  ami_type = "BOTTLEROCKET_x86_64"
-  platform = "bottlerocket"
+#   ami_type = "BOTTLEROCKET_x86_64"
+#   platform = "bottlerocket"
 
-  # this will get added to what AWS provides
-  bootstrap_extra_args = <<-EOT
-    # extra args added
-    [settings.kernel]
-    lockdown = "integrity"
+#   # this will get added to what AWS provides
+#   bootstrap_extra_args = <<-EOT
+#     # extra args added
+#     [settings.kernel]
+#     lockdown = "integrity"
 
-    [settings.kubernetes.node-labels]
-    "label1" = "foo"
-    "label2" = "bar"
-  EOT
+#     [settings.kubernetes.node-labels]
+#     "label1" = "foo"
+#     "label2" = "bar"
+#   EOT
+  
 
-  tags = merge(local.tags, { Separate = "eks-managed-node-group" })
-}
+#   tags = merge(local.tags, { Separate = "eks-managed-node-group" })
+# }
 
 # module "self_managed_node_group" {
 #   source = "../../modules/self-managed-node-group"
@@ -403,11 +406,11 @@ module "disabled_eks" {
 #   create = false
 # }
 
-module "disabled_eks_managed_node_group" {
-  source = "../../modules/eks-managed-node-group"
+# module "disabled_eks_managed_node_group" {
+#   source = "../../modules/eks-managed-node-group"
 
-  create = false
-}
+#   create = false
+# }
 
 # module "disabled_self_managed_node_group" {
 #   source = "../../modules/self-managed-node-group"
