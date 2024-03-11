@@ -1,6 +1,10 @@
+############################ Provider ############################ 
+
 provider "aws" {
     region = "ap-northeast-2"
 }
+
+############################ Variable ############################ 
 
 # prj
 variable "project_name" { default = "example" } 
@@ -31,6 +35,7 @@ variable "Private_EC2_key_name"      { default = "terraform" }
 variable "Private_EC2_volume_size"   { default = 8 }
 
 
+
 data "aws_iam_policy_document" "ec2_assume_role" {
   statement {
     actions = ["sts:AssumeRole"]
@@ -50,8 +55,10 @@ data "aws_iam_policy" "cloudwatch_agent" {
   arn = "arn:aws:iam::aws:policy/CloudWatchAgentAdminPolicy"
 }
 
-# IAM Role
+############################ IAM Role ############################ 
+
 ## bastion
+
 resource "aws_iam_role" "bastion" {
   name               = "${var.project_name}-${var.environment}-bastion-iamrole"
   assume_role_policy = data.aws_iam_policy_document.ec2_assume_role.json
@@ -94,6 +101,7 @@ resource "aws_iam_instance_profile" "private_ec2" {
 }
 
 
+############################ Key Pair ############################ 
 # Key Pair 생성
 resource "tls_private_key" "test_key" {
   algorithm = "RSA"
@@ -111,6 +119,9 @@ resource "local_file" "test_local" {
   file_permission = "0600"
 }
 
+
+
+############################ VPC Layer ############################ 
 
 
 # VPC
@@ -487,7 +498,11 @@ resource "aws_network_acl" "private3" {
   }
 }
 
-# Security Group
+
+
+
+########################## Security Group ########################## 
+
 # Bastion EC2 SG
 resource "aws_security_group" "bastion_ec2"{
     name        = "${var.project_name}-${var.environment}-bastion-sg"
@@ -540,7 +555,11 @@ resource "aws_security_group_rule" "private_ec2" {
   security_group_id        = aws_security_group.private_ec2.id
 }
 
-# EC2
+
+
+########################## EC2 ########################## 
+
+
 resource "aws_eip" "bastion" {
   instance = aws_instance.bastion.id
   domain   = "vpc"

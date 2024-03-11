@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_instance" "exmaple" {
     ami = "ami-04599ab1182cd7961"
     instance_type = "t2.micro"
-    iam_instance_profile = aws_iam_instance_profile.ec2_ssm.name
+    # iam_instance_profile = aws_iam_instance_profile.ec2_ssm.name
 }
 
 
@@ -46,13 +46,8 @@ resource "aws_iam_instance_profile" "ec2_ssm" {
 }
 
 # 6. 인스턴스에 인스턴스 프로파일 연결
-
-# provider "aws" {
-#     region = "ap-northeast-2"
-# }
-
 # resource "aws_instance" "exmaple" {
 #     ami = "ami-04599ab1182cd7961"
 #     instance_type = "t2.micro"
-#     -> ( 추가 ) iam_instance_profile = aws_iam_instance_profile.ec2_ssm.name
+#     -> ( 주석 해제 ) iam_instance_profile = aws_iam_instance_profile.ec2_ssm.name
 # }
