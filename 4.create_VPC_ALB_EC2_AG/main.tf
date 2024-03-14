@@ -103,6 +103,7 @@ resource "aws_security_group" "instance" {
   }
 }
 
+# ALB용 보안 그룹
 resource "aws_security_group" "alb" {
   name = "terraform-example-alb"
   vpc_id = aws_vpc.example.id
@@ -123,6 +124,7 @@ resource "aws_security_group" "alb" {
   }
 }
 
+# ALB 생성
 resource "aws_lb" "example" {
   name               = "example-alb"
   internal           = false
@@ -133,6 +135,8 @@ resource "aws_lb" "example" {
     Name = "terraform-example-alb"
   }
 }
+
+# TargetGroup 생성
 
 resource "aws_lb_target_group" "example" {
   name     = "example-target-group"
@@ -154,6 +158,8 @@ resource "aws_lb_target_group" "example" {
   }
 }
 
+# ALB Listner 생성
+
 resource "aws_lb_listener" "example" {
   load_balancer_arn = aws_lb.example.arn
   port              = 80
@@ -164,6 +170,8 @@ resource "aws_lb_listener" "example" {
     target_group_arn = aws_lb_target_group.example.arn
   }
 }
+
+# ALB AG 생성
 
 resource "aws_autoscaling_group" "example" {
   name                 = "example-autoscaling-group"
@@ -182,6 +190,8 @@ resource "aws_autoscaling_group" "example" {
   }
 }
 
+# Configuration 설정
+
 resource "aws_launch_configuration" "example" {
   name          = "example-launch-configuration"
   image_id      = "ami-04599ab1182cd7961"
@@ -191,6 +201,8 @@ resource "aws_launch_configuration" "example" {
   user_data     = var.user_data_script
   
   }
+  
+# EC2 TargetGroup 등록
 
 resource "aws_lb_target_group_attachment" "ec2_target" {
   count            = aws_autoscaling_group.example.desired_capacity
@@ -198,6 +210,8 @@ resource "aws_lb_target_group_attachment" "ec2_target" {
   target_id        = aws_instance.example.id  
   port             = 8080
 }
+
+# ASG EC2 TargetGroup 등록
 
 resource "aws_autoscaling_attachment" "asg_attachment_target" {
   autoscaling_group_name = aws_autoscaling_group.example.id

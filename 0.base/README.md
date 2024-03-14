@@ -12,12 +12,25 @@
     선택2. Local PC -> VSC 연동 -> AWS 자격증명 
     
     
-# 참고 자료
+
+
+# 목차
+
+    1. Terraform 설치
+    2. IaC 개념
+    3. Terraform 주요 기본 문법 이해
+    4. Terraform backend에 대한 이해
+    5. Terraform 모듈 사용 방법
+    6. Terraform 모듈 사용을 통한 EKS 설치
+    7. Terraform remote_state를 통한 VPC, EKS, Helm 연계 설치
+    8. Terraform 운영 간 주의 사항
+
+
+
+# 설치
 
     - [설치] https://www.terraform.io/downloads
-    - [Document] https://developer.hashicorp.com/terraform/tutorials/aws-get-started/aws-build
-
-
+    
 ---
 
 # 코드 인프라의 장점
