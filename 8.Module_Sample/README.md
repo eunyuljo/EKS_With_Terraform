@@ -44,6 +44,10 @@ https://developer.hashicorp.com/terraform/tutorials/modules/module-use
 
 ■ 기본 예제 구조
 
+1.Provider 
+    
+    terraform init 하면서 설치된 version 에 대한
 
+    
 
----
+    

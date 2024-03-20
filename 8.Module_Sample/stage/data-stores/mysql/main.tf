@@ -2,7 +2,6 @@ provider "aws" {
   region = "ap-northeast-2"
 }
 
-
 terraform {
   backend "s3" {
     # This backend configuration is filled in automatically at test time by Terratest. If you wish to run this example
@@ -17,11 +16,11 @@ terraform {
 }
 
 resource "aws_db_instance" "example" {
-  identifier          = "rds-terraform"
+  identifier          = "terraform-rds-stg"
   engine              = "mysql"
   allocated_storage   = 10
   instance_class      = "db.t2.micro"
-  name                = var.db_name
+  db_name                = var.db_name
   username            = "admin"
   password            = var.db_password
   skip_final_snapshot = true
