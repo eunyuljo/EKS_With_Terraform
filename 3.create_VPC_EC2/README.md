@@ -2,7 +2,7 @@
 
     https://dev.classmethod.jp/articles/create-an-ec2-instance-with-terraform/#toc-6
     
-# 코드 
+# 코드 설명
 
     1. VPC 생성 및 네트워크 레이어 리소스 생성
     2. EC2의 SSM 설정을 위한 IAM 생성 및 연결

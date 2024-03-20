@@ -17,6 +17,12 @@ variable "vpc_id" {
     type        = string
 }
 
+variable "subnet_public_id" {
+  description = "public_id"
+  type        = string
+}
+
+
 variable "instance_ami" {
   type        = string
   description = "AMI ID for the EC2 instance"

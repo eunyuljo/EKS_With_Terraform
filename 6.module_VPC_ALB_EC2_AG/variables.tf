@@ -15,6 +15,8 @@ variable "name" {
   description = "Name tag for the VPC"
 }
 
+
+
 variable "public_subnet_cidr_block_1" {
   description = "Public 서브넷 1의 CIDR 블록"
   type        = string

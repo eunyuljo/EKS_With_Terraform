@@ -18,7 +18,8 @@ module "network" {
 
 module "instance" {
     source = "./modules/instance"
-    vpc_id                  = module.network.example.vpc_id
+    vpc_id                  = module.network.vpc_id
+    subnet_public_id        = module.network.subnet_public1_id
     instance_ami            = var.instance_ami
     instance_type           = var.instance_type
     instance_name           = var.instance_name
