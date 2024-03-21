@@ -35,16 +35,16 @@ resource "aws_instance" "example" {
 #         User = "eyjo@mz.co.kr"
 #     }
 #     root_block_device {
-#     volume_size = "10"
-#     volume_type = "gp2"
-#     delete_on_termination = true
-#     tags = {Name = "terraform-example"}
-#     }
+#       volume_size = "10"
+#       volume_type = "gp2"
+#       delete_on_termination = true
+#       tags = {Name = "terraform-example"}
+#       }
 #     ebs_block_device {
-#     device_name = "/dev/sdf"   # 마운트될 장치 이름
-#     volume_type = "gp2"
-#     volume_size = 20            # 볼륨 크기 (GB)
-#     delete_on_termination = true
+#       device_name = "/dev/sdf"   # 마운트될 장치 이름
+#        volume_type = "gp2"
+#        volume_size = 20            # 볼륨 크기 (GB)
+#        delete_on_termination = true
 #     }
 # }
 
@@ -59,18 +59,18 @@ resource "aws_instance" "example" {
 #     }
     
 #     root_block_device {
-#     volume_size = "10"
-#     volume_type = "gp2"
-#     delete_on_termination = true
-#     tags = {Name = "terraform-example"}
+#       volume_size = "10"
+#       volume_type = "gp2"
+#       delete_on_termination = true
+#       tags = {Name = "terraform-example"}
 #     }
     
 #     ebs_block_device {
-#     device_name = "/dev/sdf"   # 마운트될 장치 이름
-#     volume_type = "gp2"
-#     volume_size = 20            # 볼륨 크기 (GB)
-#     # volume_size = 30            # 볼륨 크기 (GB)
-#     delete_on_termination = true
+#       device_name = "/dev/sdf"   # 마운트될 장치 이름
+#       volume_type = "gp2"
+#       volume_size = 20            # 볼륨 크기 (GB)
+#       # volume_size = 30            # 볼륨 크기 (GB)
+#       delete_on_termination = true
 #     }
 # }
 
@@ -83,10 +83,10 @@ resource "aws_instance" "example" {
 #         User = "eyjo@mz.co.kr"
 #     }
 #     root_block_device {
-#     volume_size = "10"
-#     volume_type = "gp2"
-#     delete_on_termination = true
-#     tags = {Name = "terraform-example"}
+#       volume_size = "10"
+#        volume_type = "gp2"
+#        delete_on_termination = true
+#       tags = {Name = "terraform-example"}
 #     }
 # }
 # resource "aws_ebs_volume" "additional_volume" {

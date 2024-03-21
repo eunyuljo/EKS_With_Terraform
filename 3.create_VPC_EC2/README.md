@@ -1,3 +1,6 @@
+# 추가로 필요한 리소스를 더 선언하여 생성해본다.
+
+
 # 참고 사이트
 
     https://dev.classmethod.jp/articles/create-an-ec2-instance-with-terraform/#toc-6
