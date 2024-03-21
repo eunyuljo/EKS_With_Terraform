@@ -37,6 +37,7 @@ Terraform 으로 인프라를 관리하면 다양한 리소스, 복잡한 구성
     
 https://developer.hashicorp.com/terraform/tutorials/modules/module-use
 
+
 ■ 구성 변경 
 
 한 코드에서 둘 이상의 환경을 구성하는 것을 목표.
@@ -46,8 +47,9 @@ https://developer.hashicorp.com/terraform/tutorials/modules/module-use
 
 1.Provider 
     
-    terraform init 하면서 설치된 version 에 대한
-
+    terraform init 하면서 설치된 version 에 대한 확인을 통제하는 이유를 확인해본다.
     
+
+2.하나의 모듈로 다수의 환경을 작성해본다.
 
     
